@@ -35,10 +35,7 @@ module Spambust
 
     def valid?(lookup, global)
       fake = global[lookup] || {}
-
-      fake.reduce(true) do |valid, (key, value)|
-        valid && (value == nil || value == "")
-      end
+      fake.none? { |key, value| value != "" }
     end
 
     def hash_to_options(hash)
