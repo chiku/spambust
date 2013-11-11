@@ -1,11 +1,8 @@
-require "bundler/setup"
 require "sinatra"
-require "digest/md5"
-
-require_relative "lib/spambust"
+require File.expand_path "../../lib/spambust/form_helpers", File.dirname(__FILE__)
 
 module Spambust
-  class App < Sinatra::Base
+  class TestApp < Sinatra::Base
     helpers Spambust::FormHelpers
 
     class << self
@@ -27,6 +24,6 @@ module Spambust
       erb :index
     end
 
-    start_app if direct_script_execution?
+    start_app if direct_script_execution? && ENV["environment"] != "test"
   end
 end
