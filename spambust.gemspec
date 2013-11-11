@@ -18,8 +18,8 @@ We expect a spam bot to fill the incorrect input tags. The server would pick the
 and respond accordingly.
 EOS
   s.rubyforge_project        = "spambust"
-  s.files                    = Dir.glob("{lib,bin,test}/**/*") + %w(LICENSE README.md)
-  s.test_files               = Dir.glob("{spec}/**/*")
+  s.files                    = Dir.glob("{lib,spec}/**/*") + %w(LICENSE README.md)
+  s.test_files               = Dir.glob("spec/**/*")
   s.require_paths            = ["lib"]
 
   s.add_development_dependency "sinatra"
