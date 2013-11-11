@@ -1,7 +1,80 @@
 require "digest/md5"
 
+# form_helper.rb
+#
+# Author::    Chirantan Mitra
+# Copyright:: Copyright (c) 2013. All rights reserved
+# License::   MIT
+#
+
 module Spambust
+  # This module provides form helpers for sinatra or alike DSLs/frameworks to test for spams
+  #
+  # Example:
+  #  class TestApp < Sinatra::Base
+  #    helpers Spambust::FormHelpers
+  #
+  #    class << self
+  #      def start_app
+  #        run!
+  #      end
+  #
+  #      def direct_script_execution?
+  #        app_file == $0
+  #      end
+  #    end
+  #
+  #    get "/" do
+  #      erb :index, :locals => { :result => "..." }
+  #    end
+  #
+  #    post '/' do
+  #      result = valid?("user", params) ? "Users is #{decrypt("user", params)}" : "Faking is bad"
+  #      erb :index, :locals => { :result => result }
+  #    end
+  #
+  #    start_app if direct_script_execution? && ENV["environment"] != "test"
+  #  end
+  #
+  #  index.erb
+  #
+  #  <html>
+  #     <head>
+  #        <title>Sample Sinatra application</title>
+  #      </head>
+  #      <body>
+  #        <div id="result"><%= result %></div>
+  #
+  #        <form method="post" action="/">
+  #          <label for="user-first-name">First name</label>
+  #          <%= input ["user", "first_name"], :id => "user-first-name" %>
+  #
+  #          <label for="user-last-name">Last name</label>
+  #          <%= input ["user", "last_name"], :id => "user-last-name" %>
+  #
+  #          <label for="user-email">Email</label>
+  #          <%= input ["user", "email"], :size => 40, :id => "user-email" %>
+  #
+  #          <%= submit "Create account", :id => "user-submit" %>
+  #        </form>
+  #     </body>
+  #  </html>
+
   module FormHelpers
+    # Returns obfustated input tags together with its fake hidden input tags
+    #
+    #  Use inside your templates to generate an obfuscated input field. This is the field that the server will use.
+    #  If the server sees that fields with original names (which are hidden) are filled, the server should assume
+    #  it be be a spam. It also accepts options for input type and other CSS properties.
+    #
+    #  input(["user", "name"])
+    #  # => <input type="text" name="#{user_md5}[#{name_md5}]" /><input type="hidden" name="user[name]" />
+    #
+    #  input(["user", "name"], :type => "password")
+    #  # => <input type="password" name="#{user_md5}[#{name_md5}]" /><input type="hidden" name="user[name]" />
+    #
+    #  input(["user", "name"], :id => "name", :class => "name")
+    #  # => <input type="text" name="#{user_md5}[#{name_md5}]" id="name" class="name" /><input type="hidden" name="user[name]" class="name" />
     def input(paths, options = {})
       type               = options.delete(:type) || "text"
       options_without_id = options.select { |key, value| key != :id }
@@ -11,17 +84,32 @@ module Spambust
       %Q(<input type="#{type}" name="#{namify digested_paths}"#{others} /><input type="hidden" name="#{namify paths}"#{others_without_id} />)
     end
 
+    # Returns submit tags
+    #
+    #  Use inside your templates to generate a submit tag.
+    #  It also accepts options for CSS properties.
+    #
+    #  submit("Submit")
+    #  # => <input type="submit" value="Submit" />
+    #
+    #  submit("Submit", :id => "submit", :class => "submit")
+    #  # => <input type="submit" value="Submit" id="submit" class="submit" />
     def submit(text, options = {})
       others = hash_to_options(options)
       %Q(<input type="submit" value="#{text}"#{others} />)
     end
 
-    def namify(paths)
+    def namify(paths) # :nodoc:
       first = paths[0]
       rest  = paths[1..-1].reduce("") { |acc, path| acc << "[#{path}]" }
       "#{first}#{rest}"
     end
 
+    # Returns decrypted hash of user submitted POST parameters
+    #
+    #  Use inside your application.
+    #
+    #  decrypt("user", params)
     def decrypt(lookup, global)
       fake = global[lookup] || {}
       hashed_lookup = Digest::MD5.hexdigest(lookup)
@@ -33,12 +121,17 @@ module Spambust
       end
     end
 
+    # Returns if any POST data was present in the fake input fields
+    #
+    #  Use inside your application.
+    #
+    #  valid?("user", params)
     def valid?(lookup, global)
       fake = global[lookup] || {}
       fake.none? { |key, value| value != "" }
     end
 
-    def hash_to_options(hash)
+    def hash_to_options(hash) # :nodoc:
       hash.reduce("") { |acc, (key, value)| acc << %Q( #{key}="#{value}") }
     end
     private :hash_to_options
