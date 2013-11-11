@@ -13,9 +13,8 @@ Gem::Specification.new do |s|
   s.homepage                 = "https://github.com/chiku/spambust"
   s.summary                  = "Sinatra form helper to reduce spams"
   s.description              = <<-EOS
-Render input tags with a masked name. The input tags with proper tags are hidden.
-We expect a spam bot to fill the incorrect input tags. The server would pick the spam bot
-and respond accordingly.
+Render input tags with a masked name. The input tags with proper names are hidden.
+A spam bot is expected to fill the incorrect input tags. The server would indentify this and respond appropriately.
 EOS
   s.rubyforge_project        = "spambust"
   s.files                    = Dir.glob("{lib,spec}/**/*") + %w(LICENSE README.md)

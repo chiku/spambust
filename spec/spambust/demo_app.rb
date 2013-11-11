@@ -16,12 +16,12 @@ module Spambust
     end
 
     get "/" do
-      erb :index
+      erb :index, :locals => { :result => "..." }
     end
 
     post '/' do
-      @result = valid?("user", params) ? "Users is #{decrypt("user", params)}" : "Faking is bad"
-      erb :index
+      result = valid?("user", params) ? "Users is #{decrypt("user", params)}" : "Faking is bad"
+      erb :index, :locals => { :result => result }
     end
 
     start_app if direct_script_execution? && ENV["environment"] != "test"
