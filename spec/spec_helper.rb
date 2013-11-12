@@ -1,7 +1,7 @@
 require "rack/test"
 require "sinatra/base"
 
+gem "minitest"
 require "minitest/autorun"
-require "minitest/spec"
 
 ENV["environment"] = "test"

@@ -2,3 +2,4 @@
 .rvmrc
 pkg
 rdoc
+Gemfile.lock

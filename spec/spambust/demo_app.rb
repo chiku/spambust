@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require "sinatra"
 require File.expand_path "../../lib/spambust/form_helpers", File.dirname(__FILE__)
 
