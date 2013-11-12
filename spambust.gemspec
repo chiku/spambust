@@ -23,6 +23,7 @@ EOS
 
   s.add_development_dependency "sinatra"
   s.add_development_dependency "rake"
+  s.add_development_dependency "rdoc"
   s.add_development_dependency "rack-test"
   s.add_development_dependency "minitest"
 end
