@@ -1,4 +1,5 @@
 [![Build Status](https://secure.travis-ci.org/chiku/spambust.png?branch=master)](https://travis-ci.org/chiku/spambust)
+[![Code Climate](https://codeclimate.com/github/chiku/spambust.png)](https://codeclimate.com/github/chiku/spambust)
 
 spambust
 ========
