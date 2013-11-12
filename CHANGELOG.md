@@ -1,3 +1,8 @@
+current
+=======
+
+* Measure code coverage
+
 0.1.2
 =====
 
