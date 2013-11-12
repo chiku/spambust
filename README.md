@@ -23,7 +23,7 @@ gem install spambust
 Usage
 ------
 
-*app.rb*
+**app.rb**
 
 ``` ruby
 class TestApp < Sinatra::Base
@@ -48,11 +48,11 @@ class TestApp < Sinatra::Base
     erb :index, :locals => { :result => result }
   end
 
-  start_app if direct_script_execution? && ENV["environment"] != "test"
+  start_app if direct_script_execution?
 end
 ```
 
-*index.erb*
+**index.erb**
 
 ``` erb
 <html>
@@ -78,7 +78,7 @@ end
 </html>
 ```
 
-*output*
+**output**
 
 ``` html
 <input type="text" name="ee11cbb19052e40b07aac0ca060c23ee[2a034e9d9e2601c21191cca53760eaaf]" id="user-first-name" />
