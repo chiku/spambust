@@ -15,7 +15,7 @@ describe "test application" do
     it "contains hidden input fields" do
       get "/"
 
-      last_response.body.must_include %Q(<input type="hidden" name="user[email]" size="40" />)
+      last_response.body.must_include %Q(<input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[email]" size="40" />)
     end
   end
 

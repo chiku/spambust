@@ -61,27 +61,27 @@ module Spambust
   #  </html>
 
   module FormHelpers
-    # Returns obfustated input tags together with its fake hidden input tags
+    # Returns obfustated input tags together with its fake input tags that are rendered off the screen
     #
     #  Use inside your templates to generate an obfuscated input field. This is the field that the server will use.
-    #  If the server sees that fields with original names (which are hidden) are filled, the server should assume
-    #  it be be a spam. It also accepts options for input type and other CSS properties.
+    #  If the server sees that fields with original names are filled, the server should assume it be be a spam.
+    #  It also accepts options for input type and other CSS properties.
     #
     #  input(["user", "name"])
-    #  # => <input type="text" name="#{user_md5}[#{name_md5}]" /><input type="hidden" name="user[name]" />
+    #  # => <input type="text" name="#{user_md5}[#{name_md5}]" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />
     #
     #  input(["user", "name"], :type => "password")
-    #  # => <input type="password" name="#{user_md5}[#{name_md5}]" /><input type="hidden" name="user[name]" />
+    #  # => <input type="password" name="#{user_md5}[#{name_md5}]" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />
     #
     #  input(["user", "name"], :id => "name", :class => "name")
-    #  # => <input type="text" name="#{user_md5}[#{name_md5}]" id="name" class="name" /><input type="hidden" name="user[name]" class="name" />
+    #  # => <input type="text" name="#{user_md5}[#{name_md5}]" id="name" class="name" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" class="name" />
     def input(paths, options = {})
       type               = options.delete(:type) || "text"
       options_without_id = options.select { |key, value| key != :id }
       others             = hash_to_options(options)
       others_without_id  = hash_to_options(options_without_id)
       digested_paths     = paths.map { |path| Digest::MD5.hexdigest(path) }
-      %Q(<input type="#{type}" name="#{namify digested_paths}"#{others} /><input type="hidden" name="#{namify paths}"#{others_without_id} />)
+      %Q(<input type="#{type}" name="#{namify digested_paths}"#{others} /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="#{namify paths}"#{others_without_id} />)
     end
 
     # Returns submit tags

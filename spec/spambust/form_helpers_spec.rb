@@ -16,19 +16,25 @@ describe "Bustspam::FormHelpers" do
   describe "#input" do
     describe "when type is not mentioned" do
       it "renders an input tag of type 'text'" do
-        subject.input(["user", "name"]).must_equal %Q(<input type="text" name="#{user_md5}[#{name_md5}]" /><input type="hidden" name="user[name]" />)
+        subject.input(["user", "name"]).must_equal %Q(<input type="text" name="#{user_md5}[#{name_md5}]" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />)
       end
     end
 
     describe "when type is mentioned" do
       it "renders an input tag of specified type" do
-        subject.input(["user", "name"], :type => "password").must_equal %Q(<input type="password" name="#{user_md5}[#{name_md5}]" /><input type="hidden" name="user[name]" />)
+        subject.input(["user", "name"], :type => "password").must_equal %Q(<input type="password" name="#{user_md5}[#{name_md5}]" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />)
       end
     end
 
     describe "when other options are mentioned" do
       it "renders the options" do
-        subject.input(["user", "name"], :id => "name", :class => "name").must_equal %Q(<input type="text" name="#{user_md5}[#{name_md5}]" id="name" class="name" /><input type="hidden" name="user[name]" class="name" />)
+        subject.input(["user", "name"], :class => "name").must_equal %Q(<input type="text" name="#{user_md5}[#{name_md5}]" class="name" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" class="name" />)
+      end
+    end
+
+    describe "when other options include 'id'" do
+      it "doesn't repeat the 'id'" do
+        subject.input(["user", "name"], :id => "name").must_equal %Q(<input type="text" name="#{user_md5}[#{name_md5}]" id="name" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />)
       end
     end
   end

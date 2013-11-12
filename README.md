@@ -82,7 +82,7 @@ end
 
 ``` html
 <input type="text" name="ee11cbb19052e40b07aac0ca060c23ee[2a034e9d9e2601c21191cca53760eaaf]" id="user-first-name" />
-<input type="hidden" name="user[first_name]" />
+<input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[first_name]" />
 ```
 
 How does it work?
