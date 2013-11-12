@@ -93,31 +93,37 @@ describe "Bustspam::FormHelpers" do
   end
 
   describe "#valid?" do
-    it "is true is none of the paths under lookup are populated" do
-      params = {
-        "user" => { "name" => ""},
-        user_md5 => { name_md5 => "true value" }
-      }
+    describe "when none of the paths under lookup are populated" do
+      it "is true" do
+        params = {
+          "user" => { "name" => ""},
+          user_md5 => { name_md5 => "true value" }
+        }
 
-      subject.valid?("user", params).must_equal true
+        subject.valid?("user", params).must_equal true
+      end
     end
 
-    it "is false is one of the paths under lookup is populated" do
-      params = {
-        "user" => { "name" => "spam value"},
-        user_md5 => { name_md5 => "true value" }
-      }
+    describe "when one of the paths under lookup is populated" do
+      it "is false" do
+        params = {
+          "user" => { "name" => "spam value"},
+          user_md5 => { name_md5 => "true value" }
+        }
 
-      subject.valid?("user", params).must_equal false
+        subject.valid?("user", params).must_equal false
+      end
     end
 
-    it "is true is lookup doesn't exist" do
-      params = {
-        "user" => { "name" => "spam value"},
-        user_md5 => { name_md5 => "true value" }
-      }
+    describe "when lookup doesn't exist" do
+      it "is true" do
+        params = {
+          "user" => { "name" => "spam value"},
+          user_md5 => { name_md5 => "true value" }
+        }
 
-      subject.valid?("user_missing", params).must_equal true
+        subject.valid?("user_missing", params).must_equal true
+      end
     end
   end
 end
