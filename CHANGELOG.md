@@ -1,3 +1,8 @@
+v0.1.4
+======
+
+* Include license in gem specification
+
 v0.1.3
 ======
 

@@ -20,6 +20,7 @@ EOS
   s.files                    = Dir.glob("{lib,spec}/**/*") + %w(LICENSE README.md)
   s.test_files               = Dir.glob("spec/**/*")
   s.require_paths            = ["lib"]
+  s.license                  = "MIT"
 
   s.add_development_dependency "sinatra"
   s.add_development_dependency "rake"
