@@ -6,10 +6,10 @@ describe "test application" do
 
   let(:app)            { Spambust::TestApp }
 
-  let(:user_md5)       { Digest::MD5.hexdigest("user") }
-  let(:first_name_md5) { Digest::MD5.hexdigest("first_name") }
-  let(:last_name_md5)  { Digest::MD5.hexdigest("last_name") }
-  let(:email_md5)      { Digest::MD5.hexdigest("email") }
+  let(:user_digest)       { Digest::MD5.hexdigest("user") }
+  let(:first_name_digest) { Digest::MD5.hexdigest("first_name") }
+  let(:last_name_digest)  { Digest::MD5.hexdigest("last_name") }
+  let(:email_digest)      { Digest::MD5.hexdigest("email") }
 
   describe "when loading a form" do
     it "contains hidden input fields" do
@@ -23,10 +23,10 @@ describe "test application" do
     describe "when hidden fields aren't filled" do
       it "is accepted" do
         params = {
-          user_md5 => {
-            first_name_md5 => "True first name",
-            last_name_md5  => "True last name",
-            email_md5      => "True email",
+          user_digest => {
+            first_name_digest => "True first name",
+            last_name_digest  => "True last name",
+            email_digest      => "True email",
           },
           "user" => {
             "first_name" => "",
@@ -43,10 +43,10 @@ describe "test application" do
     describe "when hidden fields aren't filled" do
       it "is is identified as fake" do
         params = {
-          user_md5 => {
-            first_name_md5 => "True first name",
-            last_name_md5  => "True last name",
-            email_md5      => "True email",
+          user_digest => {
+            first_name_digest => "True first name",
+            last_name_digest  => "True last name",
+            email_digest      => "True email",
           },
           "user" => {
             "first_name" => "Fake first name",

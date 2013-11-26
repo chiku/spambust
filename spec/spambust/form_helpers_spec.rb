@@ -10,31 +10,31 @@ end
 describe "Bustspam::FormHelpers" do
   subject { TestApp.new }
 
-  let(:user_md5) { Digest::MD5.hexdigest("user") }
-  let(:name_md5) { Digest::MD5.hexdigest("name") }
+  let(:user_digest) { Digest::MD5.hexdigest("user") }
+  let(:name_digest) { Digest::MD5.hexdigest("name") }
 
   describe "#input" do
     describe "when type is not mentioned" do
       it "renders an input tag of type 'text'" do
-        subject.input(["user", "name"]).must_equal %Q(<input type="text" name="#{user_md5}[#{name_md5}]" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />)
+        subject.input(["user", "name"]).must_equal %Q(<input type="text" name="#{user_digest}[#{name_digest}]" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />)
       end
     end
 
     describe "when type is mentioned" do
       it "renders an input tag of specified type" do
-        subject.input(["user", "name"], :type => "password").must_equal %Q(<input type="password" name="#{user_md5}[#{name_md5}]" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />)
+        subject.input(["user", "name"], :type => "password").must_equal %Q(<input type="password" name="#{user_digest}[#{name_digest}]" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />)
       end
     end
 
     describe "when other options are mentioned" do
       it "renders the options" do
-        subject.input(["user", "name"], :class => "name").must_equal %Q(<input type="text" name="#{user_md5}[#{name_md5}]" class="name" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" class="name" />)
+        subject.input(["user", "name"], :class => "name").must_equal %Q(<input type="text" name="#{user_digest}[#{name_digest}]" class="name" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" class="name" />)
       end
     end
 
     describe "when other options include 'id'" do
       it "doesn't repeat the 'id'" do
-        subject.input(["user", "name"], :id => "name").must_equal %Q(<input type="text" name="#{user_md5}[#{name_md5}]" id="name" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />)
+        subject.input(["user", "name"], :id => "name").must_equal %Q(<input type="text" name="#{user_digest}[#{name_digest}]" id="name" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />)
       end
     end
   end
@@ -71,7 +71,7 @@ describe "Bustspam::FormHelpers" do
     it "pulls the values corresponding to decrypted the keys under the lookup" do
       params = {
         "user" => { "name" => "spam value"},
-        user_md5 => { name_md5 => "true value" }
+        user_digest => { name_digest => "true value" }
       }
 
       subject.decrypt("user", params).must_equal("name" => "true value")
@@ -81,7 +81,7 @@ describe "Bustspam::FormHelpers" do
       it "is empty" do
         params = {
           "user" => { "name" => "spam value"},
-          user_md5 => { name_md5 => "true value" }
+          user_digest => { name_digest => "true value" }
         }
         subject.decrypt("missing_user", params).must_equal({})
       end
@@ -91,7 +91,7 @@ describe "Bustspam::FormHelpers" do
       it "populates the key with a nil value" do
         params = {
           "user" => { "name" => "spam value"},
-          user_md5.succ => { name_md5 => "true value" }
+          user_digest.succ => { name_digest => "true value" }
         }
         subject.decrypt("user", params).must_equal({"name" => nil})
       end
@@ -103,7 +103,7 @@ describe "Bustspam::FormHelpers" do
       it "is true" do
         params = {
           "user" => { "name" => ""},
-          user_md5 => { name_md5 => "true value" }
+          user_digest => { name_digest => "true value" }
         }
 
         subject.valid?("user", params).must_equal true
@@ -114,7 +114,7 @@ describe "Bustspam::FormHelpers" do
       it "is false" do
         params = {
           "user" => { "name" => "spam value"},
-          user_md5 => { name_md5 => "true value" }
+          user_digest => { name_digest => "true value" }
         }
 
         subject.valid?("user", params).must_equal false
@@ -125,7 +125,7 @@ describe "Bustspam::FormHelpers" do
       it "is true" do
         params = {
           "user" => { "name" => "spam value"},
-          user_md5 => { name_md5 => "true value" }
+          user_digest => { name_digest => "true value" }
         }
 
         subject.valid?("user_missing", params).must_equal true

@@ -68,13 +68,13 @@ module Spambust
     #  It also accepts options for input type and other CSS properties.
     #
     #  input(["user", "name"])
-    #  # => <input type="text" name="#{user_md5}[#{name_md5}]" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />
+    #  # => <input type="text" name="#{user_digest}[#{name_digest}]" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />
     #
     #  input(["user", "name"], :type => "password")
-    #  # => <input type="password" name="#{user_md5}[#{name_md5}]" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />
+    #  # => <input type="password" name="#{user_digest}[#{name_digest}]" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />
     #
     #  input(["user", "name"], :id => "name", :class => "name")
-    #  # => <input type="text" name="#{user_md5}[#{name_md5}]" id="name" class="name" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" class="name" />
+    #  # => <input type="text" name="#{user_digest}[#{name_digest}]" id="name" class="name" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" class="name" />
     def input(paths, options = {})
       type               = options.delete(:type) || "text"
       options_without_id = options.select { |key, value| key != :id }
