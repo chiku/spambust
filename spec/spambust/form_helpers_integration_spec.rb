@@ -1,10 +1,10 @@
 require File.expand_path "../spec_helper", File.dirname(__FILE__)
 require File.expand_path "demo_app", File.dirname(__FILE__)
 
-describe "test application" do
+describe "Test application" do
   include Rack::Test::Methods
 
-  let(:app)            { Spambust::TestApp }
+  let(:app)               { Spambust::TestApp }
 
   let(:user_digest)       { Digest::MD5.hexdigest("user") }
   let(:first_name_digest) { Digest::MD5.hexdigest("first_name") }
@@ -40,8 +40,8 @@ describe "test application" do
       end
     end
 
-    describe "when hidden fields aren't filled" do
-      it "is is identified as fake" do
+    describe "when hidden fields are filled" do
+      it "is identified as fake" do
         params = {
           user_digest => {
             first_name_digest => "True first name",

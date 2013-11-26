@@ -7,7 +7,7 @@ class TestApp
   include Spambust::FormHelpers
 end
 
-describe "Bustspam::FormHelpers" do
+describe "Spambust::FormHelpers" do
   subject { TestApp.new }
 
   let(:user_digest) { Digest::MD5.hexdigest("user") }
