@@ -1,3 +1,8 @@
+current
+=======
+
+* Fix test wording
+
 v0.1.4
 ======
 
@@ -6,7 +11,7 @@ v0.1.4
 v0.1.3
 ======
 
-* Render trap elements off sccreen. A spam bot might not fill hidden fields
+* Render trap elements off screen. A spam bot might not fill hidden fields
 * Measure code coverage
 
 v0.1.2
