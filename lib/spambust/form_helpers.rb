@@ -7,7 +7,8 @@
 require 'digest/md5'
 
 module Spambust
-  # This module provides form helpers for sinatra or alike DSLs/frameworks to test for spams
+  # This module provides form helpers for sinatra or similar DSLs/frameworks to
+  # test for spams
   #
   # Example:
   #  class TestApp < Sinatra::Base
@@ -56,10 +57,12 @@ module Spambust
   # </html>
 
   module FormHelpers
-    # Returns obfustated input tags together with its fake input tags that are rendered off the screen
+    # Returns obfustated input tags together with its fake input tags that are
+    # rendered off the screen
     #
-    #  Use inside your templates to generate an obfuscated input field. This is the field that the server will use.
-    #  If the server sees that fields with original names are filled, the server should assume it be be a spam.
+    #  Use inside your templates to generate an obfuscated input field. This is
+    #  the field that the server will use. If the server sees that fields with
+    #  original names are filled, the server should assume it be be a spam.
     #  It also accepts options for input type and other CSS properties.
     #
     #  input(["user", "name"])
