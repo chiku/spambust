@@ -79,7 +79,7 @@ describe 'Spambust::FormHelpers' do
 
     describe 'when size is more than one' do
       it 'nests the items in successive square brackets' do
-        subject.namify(["user", "name", "first"]).must_equal "user[name][first]"
+        subject.namify(%w(user name first)).must_equal 'user[name][first]'
       end
     end
   end
