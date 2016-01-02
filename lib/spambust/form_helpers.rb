@@ -57,6 +57,8 @@ module Spambust
   # </html>
 
   module FormHelpers
+    HIDING = 'position:absolute;top:-10000px;left:-10000px;'
+
     # Returns obfustated input tags together with its fake input tags that are
     # rendered off the screen
     #
@@ -79,7 +81,7 @@ module Spambust
       others             = hash_to_options(options)
       others_without_id  = hash_to_options(options_without_id)
       digested_paths     = paths.map { |path| Digest::MD5.hexdigest(path) }
-      %Q(<input type="#{type}" name="#{namify digested_paths}"#{others} /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="#{namify paths}"#{others_without_id} />)
+      %(<input type="#{type}" name="#{namify digested_paths}" #{others} /><input type="text" name="#{namify paths}" style="#{HIDING}" #{others_without_id} />).gsub('  ', ' ')
     end
 
     # Returns submit tags

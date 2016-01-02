@@ -16,12 +16,14 @@ describe 'Test application' do
   let(:first_name_digest) { Digest::MD5.hexdigest('first_name') }
   let(:last_name_digest)  { Digest::MD5.hexdigest('last_name') }
   let(:email_digest)      { Digest::MD5.hexdigest('email') }
+  let(:hiding)            { 'position:absolute;top:-10000px;left:-10000px;' }
 
   describe 'when loading a form' do
     it 'contains hidden input fields' do
       get '/'
 
-      last_response.body.must_include %Q(<input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[email]" size="40" />)
+      last_response.body.must_include %(<input type="text" name="user[email]" \
+style="#{hiding}" size="40" />)
     end
   end
 

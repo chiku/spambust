@@ -18,29 +18,38 @@ describe 'Spambust::FormHelpers' do
 
   let(:user_digest) { Digest::MD5.hexdigest('user') }
   let(:name_digest) { Digest::MD5.hexdigest('name') }
+  let(:hiding) { 'position:absolute;top:-10000px;left:-10000px;' }
 
   describe '#input' do
     describe 'when type is not mentioned' do
       it "renders an input tag of type 'text'" do
-        subject.input(["user", "name"]).must_equal %Q(<input type="text" name="#{user_digest}[#{name_digest}]" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />)
+        subject.input(%w(user name)).must_equal %(\
+<input type="text" name="#{user_digest}[#{name_digest}]" />\
+<input type="text" name="user[name]" style="#{hiding}" />)
       end
     end
 
     describe 'when type is mentioned' do
       it 'renders an input tag of specified type' do
-        subject.input(["user", "name"], :type => "password").must_equal %Q(<input type="password" name="#{user_digest}[#{name_digest}]" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />)
+        subject.input(%w(user name), type: 'password').must_equal %(\
+<input type="password" name="#{user_digest}[#{name_digest}]" />\
+<input type="text" name="user[name]" style="#{hiding}" />)
       end
     end
 
     describe 'when other options are mentioned' do
       it 'renders the options' do
-        subject.input(["user", "name"], :class => "name").must_equal %Q(<input type="text" name="#{user_digest}[#{name_digest}]" class="name" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" class="name" />)
+        subject.input(%w(user name), class: 'name').must_equal %(\
+<input type="text" name="#{user_digest}[#{name_digest}]" class="name" />\
+<input type="text" name="user[name]" style="#{hiding}" class="name" />)
       end
     end
 
     describe "when other options include 'id'" do
       it "doesn't repeat the 'id'" do
-        subject.input(["user", "name"], :id => "name").must_equal %Q(<input type="text" name="#{user_digest}[#{name_digest}]" id="name" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />)
+        subject.input(%w(user name), id: 'name').must_equal %(\
+<input type="text" name="#{user_digest}[#{name_digest}]" id="name" />\
+<input type="text" name="user[name]" style="#{hiding}" />)
       end
     end
   end
