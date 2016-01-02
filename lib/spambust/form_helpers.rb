@@ -6,76 +6,82 @@
 
 require 'digest/md5'
 
-module Spambust
-  # This module provides form helpers for sinatra or similar DSLs/frameworks to
-  # test for spams
+module Spambust # :nodoc:
+  ##
+  # <b>Form helpers for sinatra or similar DSLs/frameworks to block for spams</b>
   #
-  # Example:
-  #  class TestApp < Sinatra::Base
-  #    helpers Spambust::FormHelpers
+  # == Examples
   #
-  #    class << self
-  #      def start_app
-  #        run!
+  # === app.rb
+  #
+  #    class TestApp < Sinatra::Base
+  #      helpers Spambust::FormHelpers
+  #
+  #      class << self
+  #        def start_app
+  #          run!
+  #        end
+  #
+  #        def direct_script_execution?
+  #          app_file == $PROGRAM_NAME
+  #        end
   #      end
   #
-  #      def direct_script_execution?
-  #        app_file == $0
+  #      get '/' do
+  #        erb :index, :locals => { :result => '...' }
   #      end
+  #
+  #      post '/' do
+  #        valid = valid?('user', params)
+  #        result =  valid ? "Users is #{decrypt('user', params)}" : 'Faker!'
+  #        erb :index, locals: { result: result }
+  #      end
+  #
+  #      start_app if direct_script_execution? && ENV['environment'] != 'test'
   #    end
   #
-  #    get '/' do
-  #      erb :index, :locals => { :result => '...' }
-  #    end
+  # === index.erb
   #
-  #    post '/' do
-  #      valid = valid?("user", params)
-  #      result =  valid ? "Users is #{decrypt('user', params)}" : 'Faker!'
-  #      erb :index, :locals => { :result => result }
-  #    end
-  #
-  #    start_app if direct_script_execution? && ENV['environment'] != 'test'
-  #  end
-  #
-  #  index.erb
-  #
-  # <html>
-  # <head>
-  #    <title>Sample Sinatra application</title>
-  #  </head>
-  #  <body>
-  #    <div id="result"><%= result %></div>
-  #    <form method="post" action="/">
-  #      <label for="user-first-name">First name</label>
-  #      <%= input ["user", "first_name"], :id => "user-first-name" %>
-  #      <label for="user-last-name">Last name</label>
-  #      <%= input ["user", "last_name"], :id => "user-last-name" %>
-  #      <label for="user-email">Email</label>
-  #      <%= input ["user", "email"], :size => 40, :id => "user-email" %>
-  #      <%= submit "Create account", :id => "user-submit" %>
-  #    </form>
-  # </body>
-  # </html>
-
+  #    <html>
+  #    <head>
+  #      <title>Sample Sinatra application</title>
+  #    </head>
+  #    <body>
+  #      <div id="result"><%= result %></div>
+  #      <form method="post" action="/">
+  #        <label for="user-first-name">First name</label>
+  #        <%= input ["user", "first_name"], :id => "user-first-name" %>
+  #        <label for="user-last-name">Last name</label>
+  #        <%= input ["user", "last_name"], :id => "user-last-name" %>
+  #        <label for="user-email">Email</label>
+  #        <%= input ["user", "email"], :size => 40, :id => "user-email" %>
+  #        <%= submit "Create account", :id => "user-submit" %>
+  #      </form>
+  #    </body>
+  #    </html>
   module FormHelpers
-    HIDING = 'position:absolute;top:-10000px;left:-10000px;'
+    HIDING = 'position:absolute;top:-10000px;left:-10000px;' # :nodoc:
 
-    # Returns obfustated input tags together with its fake input tags that are
+    ##
+    # Returns obfuscated input tags together with its fake input tags that are
     # rendered off the screen
     #
-    #  Use inside your templates to generate an obfuscated input field. This is
-    #  the field that the server will use. If the server sees that fields with
-    #  original names are filled, the server should assume it be be a spam.
-    #  It also accepts options for input type and other CSS properties.
+    # Use inside your templates to generate an obfuscated input field. This is
+    # the field that the server will use. If the server sees that fields with
+    # original names are filled, the server should assume it be be a spam.
+    # It also accepts options for input type and other CSS properties.
     #
-    #  input(["user", "name"])
-    #  # => <input type="text" name="#{user_digest}[#{name_digest}]" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />
+    #  input(['user', 'name'])
+    #  # => <input type="text" name="#{user_digest}[#{name_digest}]" />\
+    #  #    <input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />
     #
-    #  input(["user", "name"], :type => "password")
-    #  # => <input type="password" name="#{user_digest}[#{name_digest}]" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />
+    #  input(['user', 'name'], type: 'password')
+    #  # => <input type="password" name="#{user_digest}[#{name_digest}]" />\
+    #  #    <input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />
     #
-    #  input(["user", "name"], :id => "name", :class => "name")
-    #  # => <input type="text" name="#{user_digest}[#{name_digest}]" id="name" class="name" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" class="name" />
+    #  input(['user', 'name'], id: 'name', class: 'name')
+    #  # => <input type="text" name="#{user_digest}[#{name_digest}]" id="name" class="name" />\
+    #  #     <input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" class="name" />
     def input(paths, options = {})
       type               = options.delete(:type) || 'text'
       options_without_id = options.select { |key, _value| key != :id }
@@ -85,10 +91,11 @@ module Spambust
       %(<input type="#{type}" name="#{namify digested_paths}" #{others} /><input type="text" name="#{namify paths}" style="#{HIDING}" #{others_without_id} />).gsub('  ', ' ')
     end
 
+    ##
     # Returns submit tags
     #
-    #  Use inside your templates to generate a submit tag.
-    #  It also accepts options for CSS properties.
+    # Use inside your templates to generate a submit tag.
+    # It also accepts for CSS options.
     #
     #  submit('Submit')
     #  # => <input type="submit" value="Submit" />
@@ -106,9 +113,9 @@ module Spambust
       "#{first}#{rest}"
     end
 
+    ##
     # Returns decrypted hash of user submitted POST parameters
-    #
-    #  Use inside your application.
+    # Use inside your application.
     #
     #  decrypt("user", params)
     def decrypt(lookup, global)
@@ -122,9 +129,10 @@ module Spambust
       end
     end
 
+    ##
     # Returns if any POST data was present in the fake input fields
     #
-    #  Use inside your application.
+    # Use inside your application.
     #
     #  valid?('user', params)
     def valid?(lookup, global)

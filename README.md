@@ -27,7 +27,7 @@ Usage
 
 **app.rb**
 
-``` ruby
+```ruby
 class TestApp < Sinatra::Base
   helpers Spambust::FormHelpers
 
@@ -37,7 +37,7 @@ class TestApp < Sinatra::Base
     end
 
     def direct_script_execution?
-      app_file == $0
+      app_file == $PROGRAM_NAME
     end
   end
 
@@ -56,9 +56,9 @@ end
 
 **index.erb**
 
-``` erb
+```erb
 <html>
- <head>
+<head>
   <title>Sample Sinatra application</title>
 </head>
 <body>
@@ -90,7 +90,7 @@ end
 How does it work?
 -----------------
 
-The server will render obfustated input tags for the user to fill. The input tags for the user will be hidden. A spam bot would see the input tags will meaningful names and fill it in. The server will figure out that this response came from a bot and take approriate action.
+The server will render obfuscated input tags for the user to fill. The input tags for the user will be hidden. A spam bot would see the input tags will meaningful names and fill it in. The server will figure out that this response came from a bot and take approriate action.
 
 Running tests
 -------------

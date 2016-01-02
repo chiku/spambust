@@ -4,13 +4,6 @@
 # Copyright:: Copyright (c) 2013-2016. All rights reserved
 # License::   MIT
 
-gem 'minitest'
-
-require 'minitest/autorun'
-require 'minitest/spec'
-require 'rack/test'
-require 'sinatra/base'
-
 ENV['environment'] = 'test'
 
 begin
@@ -26,3 +19,10 @@ begin
 rescue LoadError
   puts "\nPlease install simplecov & coveralls to generate coverage report!\n\n"
 end
+
+gem 'minitest'
+
+require 'minitest/autorun'
+require 'minitest/spec'
+require 'rack/test'
+require 'sinatra/base'
