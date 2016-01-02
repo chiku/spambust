@@ -40,15 +40,15 @@ describe 'Spambust::FormHelpers' do
     describe 'when other options are mentioned' do
       it 'renders the options' do
         subject.input(%w(user name), class: 'name').must_equal %(\
-<input type="text" name="#{user_digest}[#{name_digest}]" class="name" />\
-<input type="text" name="user[name]" style="#{hiding}" class="name" />)
+<input class="name" type="text" name="#{user_digest}[#{name_digest}]" />\
+<input class="name" type="text" name="user[name]" style="#{hiding}" />)
       end
     end
 
     describe "when other options include 'id'" do
       it "doesn't repeat the 'id'" do
         subject.input(%w(user name), id: 'name').must_equal %(\
-<input type="text" name="#{user_digest}[#{name_digest}]" id="name" />\
+<input id="name" type="text" name="#{user_digest}[#{name_digest}]" />\
 <input type="text" name="user[name]" style="#{hiding}" />)
       end
     end
@@ -65,7 +65,7 @@ describe 'Spambust::FormHelpers' do
     describe 'when other options are mentioned' do
       it 'renders the options' do
         subject.submit('Submit', id: 'submit', class: 'submit').must_equal %(\
-<input type="submit" value="Submit" id="submit" class="submit" />)
+<input id="submit" class="submit" type="submit" value="Submit" />)
       end
     end
   end

@@ -22,8 +22,8 @@ describe 'Test application' do
     it 'contains hidden input fields' do
       get '/'
 
-      last_response.body.must_include %(<input type="text" name="user[email]" \
-style="#{hiding}" size="40" />)
+      last_response.body.must_include %(<input size="40" type="text" \
+name="user[email]" style="#{hiding}" />)
     end
   end
 

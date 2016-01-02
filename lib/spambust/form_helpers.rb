@@ -83,12 +83,14 @@ module Spambust # :nodoc:
     #  # => <input type="text" name="#{user_digest}[#{name_digest}]" id="name" class="name" />\
     #  #     <input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" class="name" />
     def input(paths, options = {})
-      type               = options.delete(:type) || 'text'
-      options_without_id = options.select { |key, _value| key != :id }
-      others             = hash_to_options(options)
-      others_without_id  = hash_to_options(options_without_id)
+      type                = options.delete(:type) || 'text'
+      sanitized_options   = options.select { |key, _value| key != :id }
       digested_paths      = paths.map { |path| digest(path) }
-      %(<input type="#{type}" name="#{namify digested_paths}" #{others} /><input type="text" name="#{namify paths}" style="#{HIDING}" #{others_without_id} />).gsub('  ', ' ')
+      visible_tag_options = options.merge(type: type, name: namify(digested_paths))
+      hidden_tag_options  = sanitized_options.merge(type: 'text', name: namify(paths), style: HIDING)
+      visible_tag = %(<input #{hash_to_options visible_tag_options} />)
+      hidden_tag  = %(<input #{hash_to_options hidden_tag_options} />)
+      "#{visible_tag}#{hidden_tag}"
     end
 
     ##
@@ -103,8 +105,8 @@ module Spambust # :nodoc:
     #  submit("Submit", :id => "submit", :class => "submit")
     #  # => <input type="submit" value="Submit" id="submit" class="submit" />
     def submit(text, options = {})
-      others = hash_to_options(options)
-      %(<input type="submit" value="#{text}" #{others} />).gsub('  ', ' ')
+      visible_tag_options = options.merge(type: 'submit', value: text)
+      %(<input #{hash_to_options visible_tag_options} />).gsub('  ', ' ')
     end
 
     def namify(paths) # :nodoc:
@@ -123,9 +125,8 @@ module Spambust # :nodoc:
       hashed_lookup = digest(lookup)
       subset = global[hashed_lookup] || {}
 
-      fake.reduce({}) do |real, (key, value)|
+      fake.each_with_object({}) do |(key, _value), real|
         real[key] = subset[digest(key)]
-        real
       end
     end
 
@@ -137,11 +138,11 @@ module Spambust # :nodoc:
     #  valid?('user', params)
     def valid?(lookup, global)
       fake = global[lookup] || {}
-      fake.none? { |key, value| value != "" }
+      fake.values.all?(&:empty?)
     end
 
     def hash_to_options(hash) # :nodoc:
-      hash.reduce('') { |acc, (key, value)| acc << %( #{key}="#{value}") }
+      hash.map { |key, value| %(#{key}="#{value}") }.join(' ')
     end
     private :hash_to_options
 
