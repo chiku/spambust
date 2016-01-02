@@ -8,7 +8,8 @@
 
 require 'tilt/erb'
 require 'sinatra'
-require File.expand_path "../../lib/spambust/form_helpers", File.dirname(__FILE__)
+
+require_relative '../../lib/spambust/form_helpers'
 
 module Spambust
   class TestApp < Sinatra::Base

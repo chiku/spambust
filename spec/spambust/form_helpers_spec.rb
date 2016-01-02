@@ -5,8 +5,9 @@
 # License::   MIT
 
 require 'digest/md5'
-require File.expand_path "../spec_helper", File.dirname(__FILE__)
-require File.expand_path "../../lib/spambust/form_helpers", File.dirname(__FILE__)
+
+require_relative '../spec_helper'
+require_relative '../../lib/spambust/form_helpers'
 
 class TestApp
   include Spambust::FormHelpers

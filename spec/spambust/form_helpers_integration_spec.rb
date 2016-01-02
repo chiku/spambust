@@ -3,8 +3,9 @@
 # Author::    Chirantan Mitra
 # Copyright:: Copyright (c) 2013-2016. All rights reserved
 # License::   MIT
-require File.expand_path "../spec_helper", File.dirname(__FILE__)
-require File.expand_path "demo_app", File.dirname(__FILE__)
+
+require_relative '../spec_helper'
+require_relative 'demo_app'
 
 describe 'Test application' do
   include Rack::Test::Methods
