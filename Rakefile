@@ -1,9 +1,9 @@
-require "bundler/gem_tasks"
-require "rake/testtask"
-require "rdoc/task"
+require 'bundler/gem_tasks'
+require 'rake/testtask'
+require 'rdoc/task'
 
 Rake::TestTask.new(:spec) do |t|
-  t.pattern = "spec/**/*_spec.rb"
+  t.pattern = 'spec/**/*_spec.rb'
 end
 
 task :test => :spec

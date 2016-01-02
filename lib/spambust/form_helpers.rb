@@ -23,8 +23,8 @@ module Spambust
   #      end
   #    end
   #
-  #    get "/" do
-  #      erb :index, :locals => { :result => "..." }
+  #    get '/' do
+  #      erb :index, :locals => { :result => '...' }
   #    end
   #
   #    post '/' do
@@ -32,7 +32,7 @@ module Spambust
   #      erb :index, :locals => { :result => result }
   #    end
   #
-  #    start_app if direct_script_execution? && ENV["environment"] != "test"
+  #    start_app if direct_script_execution? && ENV['environment'] != 'test'
   #  end
   #
   #  index.erb
@@ -75,8 +75,8 @@ module Spambust
     #  input(["user", "name"], :id => "name", :class => "name")
     #  # => <input type="text" name="#{user_digest}[#{name_digest}]" id="name" class="name" /><input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" class="name" />
     def input(paths, options = {})
-      type               = options.delete(:type) || "text"
-      options_without_id = options.select { |key, value| key != :id }
+      type               = options.delete(:type) || 'text'
+      options_without_id = options.select { |key, _value| key != :id }
       others             = hash_to_options(options)
       others_without_id  = hash_to_options(options_without_id)
       digested_paths     = paths.map { |path| Digest::MD5.hexdigest(path) }
@@ -88,7 +88,7 @@ module Spambust
     #  Use inside your templates to generate a submit tag.
     #  It also accepts options for CSS properties.
     #
-    #  submit("Submit")
+    #  submit('Submit')
     #  # => <input type="submit" value="Submit" />
     #
     #  submit("Submit", :id => "submit", :class => "submit")
@@ -100,7 +100,7 @@ module Spambust
 
     def namify(paths) # :nodoc:
       first = paths[0]
-      rest  = paths[1..-1].reduce("") { |acc, path| acc << "[#{path}]" }
+      rest  = paths[1..-1].reduce('') { |a, e| a << "[#{e}]" }
       "#{first}#{rest}"
     end
 
@@ -124,7 +124,7 @@ module Spambust
     #
     #  Use inside your application.
     #
-    #  valid?("user", params)
+    #  valid?('user', params)
     def valid?(lookup, global)
       fake = global[lookup] || {}
       fake.none? { |key, value| value != "" }

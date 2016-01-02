@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
-require "tilt/erb"
-require "sinatra"
 # demo_app.rb
 #
 # Author::    Chirantan Mitra
 # Copyright:: Copyright (c) 2013-2016. All rights reserved
 # License::   MIT
 
+require 'tilt/erb'
+require 'sinatra'
 require File.expand_path "../../lib/spambust/form_helpers", File.dirname(__FILE__)
 
 module Spambust
@@ -24,7 +24,7 @@ module Spambust
       end
     end
 
-    get "/" do
+    get '/' do
       erb :index, :locals => { :result => "..." }
     end
 
@@ -33,6 +33,6 @@ module Spambust
       erb :index, :locals => { :result => result }
     end
 
-    start_app if direct_script_execution? && ENV["environment"] != "test"
+    start_app if direct_script_execution? && ENV['environment'] != 'test'
   end
 end

@@ -3,7 +3,7 @@
 lib = File.expand_path('../lib/', __FILE__)
 $:.unshift lib unless $:.include?(lib)
 
-require "spambust/version"
+require 'spambust/version'
 
 Gem::Specification.new do |s|
   s.name                     = "spambust"
@@ -22,10 +22,10 @@ EOS
   s.require_paths            = ["lib"]
   s.license                  = "MIT"
 
-  s.add_development_dependency "sinatra"
-  s.add_development_dependency "rake"
-  s.add_development_dependency "rdoc"
-  s.add_development_dependency "minitest"
-  s.add_development_dependency "rack-test"
-  s.add_development_dependency "simplecov"
+  s.add_development_dependency 'sinatra'
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'minitest'
+  s.add_development_dependency 'rack-test'
+  s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'rdoc'
 end
