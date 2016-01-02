@@ -1,5 +1,5 @@
-current
-=======
+v0.2.0
+======
 
 * Drop support for ruby 1.8.x
 * Remove CSS class, style options from off-screen tag
