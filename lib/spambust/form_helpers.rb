@@ -96,7 +96,7 @@ module Spambust
     #  # => <input type="submit" value="Submit" id="submit" class="submit" />
     def submit(text, options = {})
       others = hash_to_options(options)
-      %Q(<input type="submit" value="#{text}"#{others} />)
+      %(<input type="submit" value="#{text}" #{others} />).gsub('  ', ' ')
     end
 
     def namify(paths) # :nodoc:
@@ -132,7 +132,7 @@ module Spambust
     end
 
     def hash_to_options(hash) # :nodoc:
-      hash.reduce("") { |acc, (key, value)| acc << %Q( #{key}="#{value}") }
+      hash.reduce('') { |acc, (key, value)| acc << %( #{key}="#{value}") }
     end
     private :hash_to_options
   end

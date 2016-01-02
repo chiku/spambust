@@ -57,13 +57,15 @@ describe 'Spambust::FormHelpers' do
   describe '#submit' do
     describe 'when type is mentioned' do
       it "renders an input tag of specified 'submit" do
-        subject.submit("Submit").must_equal %Q(<input type="submit" value="Submit" />)
+        tag = %(<input type="submit" value="Submit" />)
+        subject.submit('Submit').must_equal tag
       end
     end
 
     describe 'when other options are mentioned' do
       it 'renders the options' do
-        subject.submit("Submit", :id => "submit", :class => "submit").must_equal %Q(<input type="submit" value="Submit" id="submit" class="submit" />)
+        subject.submit('Submit', id: 'submit', class: 'submit').must_equal %(\
+<input type="submit" value="Submit" id="submit" class="submit" />)
       end
     end
   end

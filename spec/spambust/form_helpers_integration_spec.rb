@@ -44,7 +44,8 @@ style="#{hiding}" size="40" />)
         }
 
         post '/', params
-        last_response.body.must_include %Q({"first_name"=>"True first name", "last_name"=>"True last name", "email"=>"True email"})
+        last_response.body.must_include %({"first_name"=>"True first name", \
+"last_name"=>"True last name", "email"=>"True email"})
       end
     end
 
