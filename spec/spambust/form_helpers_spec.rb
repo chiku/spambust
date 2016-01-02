@@ -37,18 +37,34 @@ describe 'Spambust::FormHelpers' do
       end
     end
 
-    describe 'when other options are mentioned' do
+    describe 'when CSS options are mentioned' do
       it 'renders the options' do
-        subject.input(%w(user name), class: 'name').must_equal %(\
-<input class="name" type="text" name="#{user_digest}[#{name_digest}]" />\
-<input class="name" type="text" name="user[name]" style="#{hiding}" />)
+        subject.input(%w(user name), maxlength: '40').must_equal %(\
+<input maxlength="40" type="text" name="#{user_digest}[#{name_digest}]" />\
+<input maxlength="40" type="text" name="user[name]" style="#{hiding}" />)
       end
     end
 
-    describe "when other options include 'id'" do
+    describe "when CSS options include 'id'" do
       it "doesn't repeat the 'id'" do
         subject.input(%w(user name), id: 'name').must_equal %(\
 <input id="name" type="text" name="#{user_digest}[#{name_digest}]" />\
+<input type="text" name="user[name]" style="#{hiding}" />)
+      end
+    end
+
+    describe "when CSS options include 'class'" do
+      it "doesn't repeat the 'class'" do
+        subject.input(%w(user name), class: 'name').must_equal %(\
+<input class="name" type="text" name="#{user_digest}[#{name_digest}]" />\
+<input type="text" name="user[name]" style="#{hiding}" />)
+      end
+    end
+
+    describe "when CSS options include 'style'" do
+      it "uses the 'style' to hide the fake input tag" do
+        subject.input(%w(user name), style: 'padding-top: 2px;').must_equal %(\
+<input style="padding-top: 2px;" type="text" name="#{user_digest}[#{name_digest}]" />\
 <input type="text" name="user[name]" style="#{hiding}" />)
       end
     end
@@ -62,7 +78,7 @@ describe 'Spambust::FormHelpers' do
       end
     end
 
-    describe 'when other options are mentioned' do
+    describe 'when CSS options are mentioned' do
       it 'renders the options' do
         subject.submit('Submit', id: 'submit', class: 'submit').must_equal %(\
 <input id="submit" class="submit" type="submit" value="Submit" />)

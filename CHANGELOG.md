@@ -1,7 +1,8 @@
 current
 =======
 
-* Fix test wording
+* Drop support for ruby 1.8.x
+* Remove CSS class, style options from off-screen tag
 
 v0.1.4
 ======

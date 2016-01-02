@@ -61,6 +61,7 @@ module Spambust # :nodoc:
   #    </html>
   module FormHelpers
     HIDING = 'position:absolute;top:-10000px;left:-10000px;' # :nodoc:
+    BLOCKED_OPTIONS = [:id, :class, :style] # :nodoc:
 
     ##
     # Returns obfuscated input tags together with its fake input tags that are
@@ -81,10 +82,10 @@ module Spambust # :nodoc:
     #
     #  input(['user', 'name'], id: 'name', class: 'name')
     #  # => <input type="text" name="#{user_digest}[#{name_digest}]" id="name" class="name" />\
-    #  #     <input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" class="name" />
+    #  #    <input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" class="name" />
     def input(paths, options = {})
-      type                = options.delete(:type) || 'text'
-      sanitized_options   = options.select { |key, _value| key != :id }
+      type                = options.delete(:type) || 'text'.freeze
+      sanitized_options   = options.reject { |key, _value| BLOCKED_OPTIONS.include?(key) }
       digested_paths      = paths.map { |path| digest(path) }
       visible_tag_options = options.merge(type: type, name: namify(digested_paths))
       hidden_tag_options  = sanitized_options.merge(type: 'text', name: namify(paths), style: HIDING)
@@ -105,7 +106,7 @@ module Spambust # :nodoc:
     #  submit("Submit", :id => "submit", :class => "submit")
     #  # => <input type="submit" value="Submit" id="submit" class="submit" />
     def submit(text, options = {})
-      visible_tag_options = options.merge(type: 'submit', value: text)
+      visible_tag_options = options.merge(type: 'submit'.freeze, value: text)
       %(<input #{hash_to_options visible_tag_options} />).gsub('  ', ' ')
     end
 
