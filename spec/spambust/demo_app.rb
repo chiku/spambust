@@ -20,7 +20,7 @@ module Spambust
       end
 
       def direct_script_execution?
-        app_file == $0
+        app_file == $PROGRAM_NAME
       end
     end
 
