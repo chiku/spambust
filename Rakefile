@@ -2,12 +2,14 @@ gem 'rdoc'
 
 require 'bundler/gem_tasks'
 require 'rake/testtask'
+require 'rubocop/rake_task'
 require 'rdoc/task'
 
 Rake::TestTask.new(:spec) do |t|
   t.pattern = 'spec/**/*_spec.rb'
 end
 
+RuboCop::RakeTask.new(:lint)
 
 RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
@@ -16,4 +18,4 @@ RDoc::Task.new(:rdoc) do |rdoc|
 end
 
 task test: :spec
-task default: [:test, :rdoc]
+task default: [:lint, :test, :rdoc]
