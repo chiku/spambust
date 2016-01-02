@@ -25,7 +25,7 @@ module Spambust
     end
 
     get '/' do
-      erb :index, :locals => { :result => "..." }
+      erb :index, locals: { result: '...' }
     end
 
     post '/' do

@@ -98,7 +98,7 @@ describe 'Spambust::FormHelpers' do
           'user' => { 'name' => 'spam value' },
           user_digest.succ => { name_digest => 'true value' }
         }
-        subject.decrypt("user", params).must_equal({"name" => nil})
+        subject.decrypt('user', params).must_equal('name' => nil)
       end
     end
   end
