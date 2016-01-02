@@ -37,27 +37,23 @@ module Spambust
   #
   #  index.erb
   #
-  #  <html>
-  #     <head>
-  #        <title>Sample Sinatra application</title>
-  #      </head>
-  #      <body>
-  #        <div id="result"><%= result %></div>
-  #
-  #        <form method="post" action="/">
-  #          <label for="user-first-name">First name</label>
-  #          <%= input ["user", "first_name"], :id => "user-first-name" %>
-  #
-  #          <label for="user-last-name">Last name</label>
-  #          <%= input ["user", "last_name"], :id => "user-last-name" %>
-  #
-  #          <label for="user-email">Email</label>
-  #          <%= input ["user", "email"], :size => 40, :id => "user-email" %>
-  #
-  #          <%= submit "Create account", :id => "user-submit" %>
-  #        </form>
-  #     </body>
-  #  </html>
+  # <html>
+  # <head>
+  #    <title>Sample Sinatra application</title>
+  #  </head>
+  #  <body>
+  #    <div id="result"><%= result %></div>
+  #    <form method="post" action="/">
+  #      <label for="user-first-name">First name</label>
+  #      <%= input ["user", "first_name"], :id => "user-first-name" %>
+  #      <label for="user-last-name">Last name</label>
+  #      <%= input ["user", "last_name"], :id => "user-last-name" %>
+  #      <label for="user-email">Email</label>
+  #      <%= input ["user", "email"], :size => 40, :id => "user-email" %>
+  #      <%= submit "Create account", :id => "user-submit" %>
+  #    </form>
+  # </body>
+  # </html>
 
   module FormHelpers
     # Returns obfustated input tags together with its fake input tags that are rendered off the screen

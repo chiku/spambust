@@ -58,25 +58,25 @@ end
 
 ``` erb
 <html>
-   <head>
-      <title>Sample Sinatra application</title>
-    </head>
-    <body>
-      <div id="result"><%= result %></div>
+ <head>
+  <title>Sample Sinatra application</title>
+</head>
+<body>
+  <div id="result"><%= result %></div>
 
-      <form method="post" action="/">
-        <label for="user-first-name">First name</label>
-        <%= input ["user", "first_name"], :id => "user-first-name" %>
+  <form method="post" action="/">
+    <label for="user-first-name">First name</label>
+    <%= input ["user", "first_name"], :id => "user-first-name" %>
 
-        <label for="user-last-name">Last name</label>
-        <%= input ["user", "last_name"], :id => "user-last-name" %>
+    <label for="user-last-name">Last name</label>
+    <%= input ["user", "last_name"], :id => "user-last-name" %>
 
-        <label for="user-email">Email</label>
-        <%= input ["user", "email"], :size => 40, :id => "user-email" %>
+    <label for="user-email">Email</label>
+    <%= input ["user", "email"], :size => 40, :id => "user-email" %>
 
-        <%= submit "Create account", :id => "user-submit" %>
-      </form>
-   </body>
+    <%= submit "Create account", :id => "user-submit" %>
+  </form>
+</body>
 </html>
 ```
 
@@ -95,7 +95,9 @@ The server will render obfustated input tags for the user to fill. The input tag
 Running tests
 -------------
 
-Clone the repository and run `rake` from the root directory.
+1. Clone the repository.
+2. run `bundle` from the root directory.
+3. run `rake` from the root directory.
 
 Contributing
 ------------
