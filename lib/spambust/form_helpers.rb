@@ -29,7 +29,8 @@ module Spambust
   #    end
   #
   #    post '/' do
-  #      result = valid?("user", params) ? "Users is #{decrypt("user", params)}" : "Faking is bad"
+  #      valid = valid?("user", params)
+  #      result =  valid ? "Users is #{decrypt('user', params)}" : 'Faker!'
   #      erb :index, :locals => { :result => result }
   #    end
   #
