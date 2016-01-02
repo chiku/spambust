@@ -81,7 +81,7 @@ module Spambust
       options_without_id = options.select { |key, _value| key != :id }
       others             = hash_to_options(options)
       others_without_id  = hash_to_options(options_without_id)
-      digested_paths     = paths.map { |path| Digest::MD5.hexdigest(path) }
+      digested_paths      = paths.map { |path| digest(path) }
       %(<input type="#{type}" name="#{namify digested_paths}" #{others} /><input type="text" name="#{namify paths}" style="#{HIDING}" #{others_without_id} />).gsub('  ', ' ')
     end
 
@@ -113,11 +113,11 @@ module Spambust
     #  decrypt("user", params)
     def decrypt(lookup, global)
       fake = global[lookup] || {}
-      hashed_lookup = Digest::MD5.hexdigest(lookup)
+      hashed_lookup = digest(lookup)
       subset = global[hashed_lookup] || {}
 
       fake.reduce({}) do |real, (key, value)|
-        real[key] = subset[Digest::MD5.hexdigest(key)]
+        real[key] = subset[digest(key)]
         real
       end
     end
@@ -136,5 +136,10 @@ module Spambust
       hash.reduce('') { |acc, (key, value)| acc << %( #{key}="#{value}") }
     end
     private :hash_to_options
+
+    def digest(item) # :nodoc:
+      Digest::MD5.hexdigest(item)
+    end
+    private :digest
   end
 end
