@@ -1,3 +1,9 @@
+# spec_helper.rb
+#
+# Author::    Chirantan Mitra
+# Copyright:: Copyright (c) 2013-2016. All rights reserved
+# License::   MIT
+
 require "rack/test"
 require "sinatra/base"
 

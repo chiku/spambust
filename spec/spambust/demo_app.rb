@@ -2,6 +2,12 @@
 
 require "tilt/erb"
 require "sinatra"
+# demo_app.rb
+#
+# Author::    Chirantan Mitra
+# Copyright:: Copyright (c) 2013-2016. All rights reserved
+# License::   MIT
+
 require File.expand_path "../../lib/spambust/form_helpers", File.dirname(__FILE__)
 
 module Spambust

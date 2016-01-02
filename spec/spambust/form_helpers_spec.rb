@@ -1,3 +1,8 @@
+# form_helpers_spec.rb
+#
+# Author::    Chirantan Mitra
+# Copyright:: Copyright (c) 2013-2016. All rights reserved
+# License::   MIT
 require "digest/md5"
 
 require File.expand_path "../spec_helper", File.dirname(__FILE__)

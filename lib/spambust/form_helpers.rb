@@ -1,11 +1,10 @@
-require "digest/md5"
-
-# form_helper.rb
+# form_helpers.rb
 #
 # Author::    Chirantan Mitra
-# Copyright:: Copyright (c) 2013. All rights reserved
+# Copyright:: Copyright (c) 2013-2016. All rights reserved
 # License::   MIT
-#
+
+require 'digest/md5'
 
 module Spambust
   # This module provides form helpers for sinatra or alike DSLs/frameworks to test for spams
