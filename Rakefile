@@ -13,8 +13,8 @@ RuboCop::RakeTask.new(:lint)
 
 RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.main = ' README.md'
-  rdoc.rdoc_files.include('README.md', 'lib/**/*.rb')
+  rdoc.main = 'README.md'
+  rdoc.rdoc_files.include('README.md', 'CHANGELOG.md', 'lib/**/*.rb')
 end
 
 task test: :spec
