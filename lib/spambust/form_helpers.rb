@@ -6,14 +6,11 @@
 
 require 'digest/md5'
 
-module Spambust # :nodoc:
+module Spambust
   ##
   # <b>Form helpers for sinatra or similar DSLs/frameworks to block for spams</b>
   #
-  # == Examples
-  #
-  # === app.rb
-  #
+  # @example app.rb
   #    class TestApp < Sinatra::Base
   #      helpers Spambust::FormHelpers
   #
@@ -40,8 +37,7 @@ module Spambust # :nodoc:
   #      start_app if direct_script_execution? && ENV['environment'] != 'test'
   #    end
   #
-  # === index.erb
-  #
+  # @example index.erb
   #    <html>
   #    <head>
   #      <title>Sample Sinatra application</title>
@@ -60,8 +56,8 @@ module Spambust # :nodoc:
   #    </body>
   #    </html>
   module FormHelpers
-    HIDING = 'position:absolute;top:-10000px;left:-10000px;' # :nodoc:
-    BLOCKED_OPTIONS = [:id, :class, :style] # :nodoc:
+    HIDING = 'position:absolute;top:-10000px;left:-10000px;' # @api private
+    BLOCKED_OPTIONS = [:id, :class, :style] # @api private
 
     ##
     # Returns obfuscated input tags together with its fake input tags that are
@@ -72,17 +68,25 @@ module Spambust # :nodoc:
     # original names are filled, the server should assume it be be a spam.
     # It also accepts options for input type and other CSS properties.
     #
+    # @example
     #  input(['user', 'name'])
-    #  # => <input type="text" name="#{user_digest}[#{name_digest}]" />\
-    #  #    <input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />
+    #  # => <input type="text" name="ee11cbb19052e40b07aac0ca060c23ee[b068931cc450442b63f5b3d276ea4297]" />\
+    #  #    <input type="text" name="user[name]" style="position:absolute;top:-10000px;left:-10000px;" />
     #
+    # @example
     #  input(['user', 'name'], type: 'password')
-    #  # => <input type="password" name="#{user_digest}[#{name_digest}]" />\
-    #  #    <input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" />
+    #  # => <input type="password" name="ee11cbb19052e40b07aac0ca060c23ee[b068931cc450442b63f5b3d276ea4297]" />\
+    #  #    <input type="text" name="user[name]" style="position:absolute;top:-10000px;left:-10000px;" />
     #
+    # @example
     #  input(['user', 'name'], id: 'name', class: 'name')
-    #  # => <input type="text" name="#{user_digest}[#{name_digest}]" id="name" class="name" />\
-    #  #    <input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[name]" class="name" />
+    #  # => <input id="name" class="name" type="text" \
+    #  #    name="ee11cbb19052e40b07aac0ca060c23ee[b068931cc450442b63f5b3d276ea4297]" />\
+    #  #    <input type="text" name="user[name]" style="position:absolute;top:-10000px;left:-10000px;" />
+    #
+    # @param paths [Array<String>]
+    # @param options [Hash]
+    # @return [String]
     def input(paths, options = {})
       type                = options.delete(:type) || 'text'.freeze
       sanitized_options   = options.reject { |key, _value| BLOCKED_OPTIONS.include?(key) }
@@ -100,17 +104,29 @@ module Spambust # :nodoc:
     # Use inside your templates to generate a submit tag.
     # It also accepts for CSS options.
     #
+    # @example
     #  submit('Submit')
     #  # => <input type="submit" value="Submit" />
     #
-    #  submit("Submit", :id => "submit", :class => "submit")
-    #  # => <input type="submit" value="Submit" id="submit" class="submit" />
+    # @example
+    #  submit('Submit', id: 'submit', class: 'submit')
+    #  # => <input id="submit" class="submit" type="submit" value="Submit" />
+    #
+    # @param text [String]
+    # @param options [Hash]
+    # @return [String]
     def submit(text, options = {})
       visible_tag_options = options.merge(type: 'submit'.freeze, value: text)
       %(<input #{hash_to_options visible_tag_options} />).gsub('  ', ' ')
     end
 
-    def namify(paths) # :nodoc:
+    ##
+    # Returns a nested input name
+    #
+    # @api private
+    # @param paths [Array<String>]
+    # @return [String]
+    def namify(paths)
       first = paths[0]
       rest  = paths[1..-1].reduce('') { |a, e| a << "[#{e}]" }
       "#{first}#{rest}"
@@ -120,7 +136,11 @@ module Spambust # :nodoc:
     # Returns decrypted hash of user submitted POST parameters
     # Use inside your application.
     #
-    #  decrypt("user", params)
+    # @example
+    #  decrypt('user', params)
+    #
+    # @param lookup [String]
+    # @param global [Hash]
     def decrypt(lookup, global)
       fake = global[lookup] || {}
       hashed_lookup = digest(lookup)
@@ -136,18 +156,22 @@ module Spambust # :nodoc:
     #
     # Use inside your application.
     #
+    # @example
     #  valid?('user', params)
+    #
+    # @param lookup [String]
+    # @param global [Hash]
     def valid?(lookup, global)
       fake = global[lookup] || {}
       fake.values.all?(&:empty?)
     end
 
-    def hash_to_options(hash) # :nodoc:
+    def hash_to_options(hash)
       hash.map { |key, value| %(#{key}="#{value}") }.join(' ')
     end
     private :hash_to_options
 
-    def digest(item) # :nodoc:
+    def digest(item)
       Digest::MD5.hexdigest(item)
     end
     private :digest

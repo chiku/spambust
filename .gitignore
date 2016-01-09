@@ -1,7 +1,8 @@
 *.log
 .rvmrc
 .ruby*
-pkg
-rdoc
+pkg/
+doc/
 Gemfile.lock
-coverage
+coverage/
+.yardoc/

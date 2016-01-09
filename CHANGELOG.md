@@ -1,3 +1,8 @@
+current
+=======
+
+* Document using yard
+
 v0.2.0
 ======
 
