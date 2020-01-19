@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
     hidden. A spam bot would fill the incorrect but visible input tags. The server
     would identify this and respond appropriately.
   DESCRIPTION
-  s.rubyforge_project = 'spambust'
   s.files             = files
   s.test_files        = test_files
   s.require_paths     = ['lib']
