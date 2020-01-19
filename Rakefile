@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'bundler/gem_tasks'
 require 'rake/testtask'
 require 'rubocop/rake_task'
@@ -14,4 +16,4 @@ YARD::Rake::YardocTask.new(:doc) do |t|
 end
 
 task test: :spec
-task default: [:lint, :test, :doc]
+task default: %i[lint test doc]

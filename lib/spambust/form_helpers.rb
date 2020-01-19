@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 # form_helpers.rb
 #
 # Author::    Chirantan Mitra
-# Copyright:: Copyright (c) 2013-2016. All rights reserved
+# Copyright:: Copyright (c) 2013-2020. All rights reserved
 # License::   MIT
 
 require 'digest/md5'
@@ -57,7 +59,7 @@ module Spambust
   #    </html>
   module FormHelpers
     HIDING = 'position:absolute;top:-10000px;left:-10000px;' # @api private
-    BLOCKED_OPTIONS = [:id, :class, :style] # @api private
+    BLOCKED_OPTIONS = %i[id class style].freeze # @api private
 
     ##
     # Returns obfuscated input tags together with its fake input tags that are
@@ -88,7 +90,7 @@ module Spambust
     # @param options [Hash]
     # @return [String]
     def input(paths, options = {})
-      type                = options.delete(:type) || 'text'.freeze
+      type                = options.delete(:type) || 'text'
       sanitized_options   = options.reject { |key, _value| BLOCKED_OPTIONS.include?(key) }
       digested_paths      = paths.map { |path| digest(path) }
       visible_tag_options = options.merge(type: type, name: namify(digested_paths))
@@ -116,7 +118,7 @@ module Spambust
     # @param options [Hash]
     # @return [String]
     def submit(text, options = {})
-      visible_tag_options = options.merge(type: 'submit'.freeze, value: text)
+      visible_tag_options = options.merge(type: 'submit', value: text)
       %(<input #{hash_to_options visible_tag_options} />).gsub('  ', ' ')
     end
 
@@ -128,7 +130,7 @@ module Spambust
     # @return [String]
     def namify(paths)
       first = paths[0]
-      rest  = paths[1..-1].reduce('') { |a, e| a << "[#{e}]" }
+      rest  = paths[1..-1].reduce([]) { |a, e| a << "[#{e}]" }.join('')
       "#{first}#{rest}"
     end
 
@@ -166,14 +168,14 @@ module Spambust
       fake.values.all?(&:empty?)
     end
 
+    private
+
     def hash_to_options(hash)
       hash.map { |key, value| %(#{key}="#{value}") }.join(' ')
     end
-    private :hash_to_options
 
     def digest(item)
       Digest::MD5.hexdigest(item)
     end
-    private :digest
   end
 end
