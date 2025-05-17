@@ -46,8 +46,12 @@ name="user[email]" style="#{hiding}" />)
         }
 
         post '/', params
-        value(last_response.body).must_include %({"first_name" => "True first name", \
-"last_name" => "True last name", "email" => "True email"})
+        expected_without_space = %({"first_name"=>"True first name", "last_name"=>"True last name", \
+"email"=>"True email"})
+        expected_with_space = %({"first_name" => "True first name", "last_name" => "True last name", \
+"email" => "True email"})
+        value(last_response.body.include?(expected_without_space) ||
+          last_response.body.include?(expected_with_space)).must_equal true
       end
     end
 
