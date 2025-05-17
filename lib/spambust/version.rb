@@ -9,5 +9,5 @@
 ##
 # <b>Form helpers for sinatra or similar DSLs/frameworks to block for spams</b>
 module Spambust
-  VERSION = '0.2.1' # version
+  VERSION = '0.2.2' # version
 end

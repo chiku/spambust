@@ -1,3 +1,8 @@
+v0.2.2
+======
+
+* Set minimum supported ruby version to 3.2.0
+
 v0.2.1
 ======
 
