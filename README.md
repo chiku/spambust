@@ -1,10 +1,7 @@
+[![Build Status](https://github.com/chiku/spambust/actions/workflows/build.yml/badge.svg)](https://github.com/chiku/spambust/actions/workflows/build.yml)
+[![Gem Version](https://badge.fury.io/rb/spambust.svg)](http://badge.fury.io/rb/spambust)
+[![Code Climate](https://codeclimate.com/github/chiku/spambust.png)](https://codeclimate.com/github/chiku/spambust)
 
-[![Build Status](https://github.com/chiku/spambust/actions/workflows/build.yml/badge.svg)]
-(https://github.com/chiku/spambust/actions/workflows/build.yml)
-[![Gem Version](https://badge.fury.io/rb/spambust.svg)]
-(http://badge.fury.io/rb/spambust)
-[![Code Climate](https://codeclimate.com/github/chiku/spambust.png)]
-(https://codeclimate.com/github/chiku/spambust)
 
 spambust
 ========
