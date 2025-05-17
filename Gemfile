@@ -6,7 +6,6 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'coveralls', '>= 0.8.23', '< 0.9'
   gem 'minitest', '>= 5.0', '< 6.0'
   gem 'ostruct', '>= 0.6.0', '< 1.0'
   gem 'rack-test', '>= 1.1', '< 2.0'
