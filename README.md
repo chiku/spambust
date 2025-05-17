@@ -1,6 +1,10 @@
-[![Build Status](https://secure.travis-ci.org/chiku/spambust.png?branch=master)](https://travis-ci.org/chiku/spambust)
-[![Gem Version](https://badge.fury.io/rb/spambust.svg)](http://badge.fury.io/rb/spambust)
-[![Code Climate](https://codeclimate.com/github/chiku/spambust.png)](https://codeclimate.com/github/chiku/spambust)
+
+[![Build Status](https://github.com/chiku/spambust/actions/workflows/build.yml/badge.svg)]
+(https://github.com/chiku/spambust/actions/workflows/build.yml)
+[![Gem Version](https://badge.fury.io/rb/spambust.svg)]
+(http://badge.fury.io/rb/spambust)
+[![Code Climate](https://codeclimate.com/github/chiku/spambust.png)]
+(https://codeclimate.com/github/chiku/spambust)
 
 spambust
 ========
@@ -8,22 +12,22 @@ spambust
 Overview
 --------
 
-Prevent spams bots from attacking your website.
+Prevent spam bots from attacking your website.
 
 Dependencies
 ------------
 
-These are no runtime dependencies for this gem.
+There are no runtime dependencies for this gem.
 
 Installation
 ------------
 
-``` script
+```bash
 gem install spambust
 ```
 
 Usage
-------
+-----
 
 **app.rb**
 
@@ -42,19 +46,19 @@ class TestApp < Sinatra::Base
   end
 
   get "/" do
-    erb :index, :locals => { :result => "..." }
+    erb :index, locals: { result: "..." }
   end
 
   post '/' do
-    result = valid?("user", params) ? "Users is #{decrypt("user", params)}" : "Faking is bad"
-    erb :index, :locals => { :result => result }
+    result = valid?("user", params) ? "User is #{decrypt("user", params)}" : "Faking is bad"
+    erb :index, locals: { result: result }
   end
 
   start_app if direct_script_execution?
 end
 ```
 
-**index.erb**
+index.erb
 
 ```erb
 <html>
@@ -66,23 +70,23 @@ end
 
   <form method="post" action="/">
     <label for="user-first-name">First name</label>
-    <%= input ["user", "first_name"], :id => "user-first-name" %>
+    <%= input ["user", "first_name"], id: "user-first-name" %>
 
     <label for="user-last-name">Last name</label>
-    <%= input ["user", "last_name"], :id => "user-last-name" %>
+    <%= input ["user", "last_name"], id: "user-last-name" %>
 
     <label for="user-email">Email</label>
-    <%= input ["user", "email"], :size => 40, :id => "user-email" %>
+    <%= input ["user", "email"], size: 40, id: "user-email" %>
 
-    <%= submit "Create account", :id => "user-submit" %>
+    <%= submit "Create account", id: "user-submit" %>
   </form>
 </body>
 </html>
 ```
 
-**output**
+output
 
-``` html
+```html
 <input type="text" name="ee11cbb19052e40b07aac0ca060c23ee[2a034e9d9e2601c21191cca53760eaaf]" id="user-first-name" />
 <input type="text" style="position:absolute;top:-10000px;left:-10000px;" name="user[first_name]" />
 ```
@@ -90,14 +94,14 @@ end
 How does it work?
 -----------------
 
-The server will render obfuscated input tags for the user to fill. The input tags for the user will be hidden. A spam bot would see the input tags will meaningful names and fill it in. The server will figure out that this response came from a bot and take approriate action.
+The server renders obfuscated input tags for users to fill. The input tags for the user are hidden. A spam bot will see input tags with meaningful names and fill them in. The server detects this and takes appropriate action.
 
 Running tests
 -------------
 
 1. Clone the repository.
-2. run `bundle` from the root directory.
-3. run `rake` from the root directory.
+2. Run `bundle` from the root directory.
+3. Run `rake` from the root directory.
 
 Contributing
 ------------

@@ -15,5 +15,7 @@ YARD::Rake::YardocTask.new(:doc) do |t|
   t.files   = ['lib/**/*.rb']
 end
 
+desc 'Run tests for spec'
 task test: :spec
+
 task default: %i[lint test doc]

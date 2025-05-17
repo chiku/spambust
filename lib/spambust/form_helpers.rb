@@ -91,7 +91,7 @@ module Spambust
     # @return [String]
     def input(paths, options = {})
       type                = options.delete(:type) || 'text'
-      sanitized_options   = options.reject { |key, _value| BLOCKED_OPTIONS.include?(key) }
+      sanitized_options   = options.except(*BLOCKED_OPTIONS)
       digested_paths      = paths.map { |path| digest(path) }
       visible_tag_options = options.merge(type: type, name: namify(digested_paths))
       hidden_tag_options  = sanitized_options.merge(type: 'text', name: namify(paths), style: HIDING)
@@ -130,7 +130,7 @@ module Spambust
     # @return [String]
     def namify(paths)
       first = paths[0]
-      rest  = paths[1..-1].reduce([]) { |a, e| a << "[#{e}]" }.join('')
+      rest  = paths[1..].reduce([]) { |a, e| a << "[#{e}]" }.join
       "#{first}#{rest}"
     end
 

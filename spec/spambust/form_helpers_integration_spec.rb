@@ -46,8 +46,8 @@ name="user[email]" style="#{hiding}" />)
         }
 
         post '/', params
-        value(last_response.body).must_include %({"first_name"=>"True first name", \
-"last_name"=>"True last name", "email"=>"True email"})
+        value(last_response.body).must_include %({"first_name" => "True first name", \
+"last_name" => "True last name", "email" => "True email"})
       end
     end
 
